@@ -5,6 +5,8 @@ import Paper from "@material-ui/core/Paper";
 import { fetchEntries } from "Utils/Actions/entryAction";
 import HomeComponent from "Pages";
 
+import LoadingEntryComponent from "Components/Entry/loading";
+
 import { connect } from "react-redux";
 
 class Home extends Component {
@@ -26,7 +28,10 @@ class Home extends Component {
     return (
       <Box>
         {isLoading || loadingReducer ? (
-          <>Loading</>
+          <Box>
+            <LoadingEntryComponent />
+            <LoadingEntryComponent />
+          </Box>
         ) : entries !== false ? (
           <HomeComponent entries={entries} history={history} />
         ) : (

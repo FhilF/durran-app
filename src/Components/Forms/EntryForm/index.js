@@ -308,7 +308,7 @@ const EntryFrom = (props) => {
           })
           .catch((error) => {
             setSnackbar(
-              "success",
+              "error",
               "There was an error submitting your request!"
             );
             setLoading(false);

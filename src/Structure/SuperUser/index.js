@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@material-ui/core/Box";
 import SuperUserRoutes from "Routes/SuperUser";
 import { makeStyles } from "@material-ui/core/styles";
@@ -49,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 
   navLeft: {
     width: "inherit",
+    display: "flex",
   },
 
   navRight: {
@@ -56,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   navChildLeft: {
+    display: "flex",
     "@media (min-width: 1280px)": {
       paddingLeft: "10px",
       paddingRight: "10px",
@@ -72,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     height: "inherit",
     flexGrow: 1,
     position: "fixed",
+    display: "flex",
   },
 
   navContent: {
@@ -110,7 +113,7 @@ const useStyles = makeStyles((theme) => ({
   },
 
   pageTitle: {
-    color: "#fff !important",
+    color: "#949494 !important",
     fontFamily: theme.custom.font1.fontFamily,
     fontWeight: 600,
   },
@@ -118,13 +121,13 @@ const useStyles = makeStyles((theme) => ({
 
 const RightNavComponent = (props) => {
   const classes = useStyles();
-  const { history,location } = props;
+  const { history, location } = props;
   return (
     <Box className={classes.drawerRight}>
       <Box className={classes.navContent}>
         <nav className={classes.navRight}>
           <Box className={classes.navChildRight}>
-            <RightNav history={history} location={location}/>
+            <RightNav history={history} location={location} />
           </Box>
         </nav>
       </Box>
@@ -154,7 +157,7 @@ const SuperUser = (props) => {
 
   useEffect(() => {
     return () => {
-      setLocation(history.location)
+      setLocation(history.location);
     };
   }, [history.location]);
 
@@ -205,7 +208,9 @@ const SuperUser = (props) => {
             </main>
           </Box>
         </Box>
-        {largeWidth() ? null : <RightNavComponent history={history} location={location} />}
+        {largeWidth() ? null : (
+          <RightNavComponent history={history} location={location} />
+        )}
       </Box>
     </Box>
   );

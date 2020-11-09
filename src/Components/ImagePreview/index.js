@@ -224,7 +224,13 @@ const ImagePreview = (props) => {
   };
 
   return (
-    <Box>
+    <Box
+      onClick={(e) => {
+        e.stopPropagation();
+      }}
+
+      style={{cursor:"default"}}
+    >
       <Box className={classes.imagePreview}>
         <Box display="flex" style={{ position: "relative" }}>
           <Box style={{ width: "100%", height: "100vh" }}>

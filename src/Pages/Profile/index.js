@@ -21,6 +21,8 @@ import {
 } from "Utils/constants";
 
 import placeHolder from "Assets/Images/avatar-placeholder.png";
+import EditProfileComponent from "Components/EditProfile";
+import DurranUserModel from "Models/DurranUser";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -111,9 +113,22 @@ const Profile = (props) => {
   const countries = countryList.getData();
   const [dialog, setDialog] = useState(false);
   const spacing = "\xa0\xa0\xa0\xa0";
-  console.log(entries)
 
-  let durranUserData = isSelf ? durranUser[0].attrs : durranUser[0];
+  const [durranUserData, setDurranUserData] = useState(
+    isSelf ? durranUser[0].attrs : durranUser[0]
+  );
+
+  const handleProfileEdit = async () => {
+    try {
+      let data = await DurranUserModel.fetchOwnList({
+        username: userData.userName,
+      });
+
+      setDurranUserData(data[0].attrs);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const nameCheck = (data) => {
     if (isNull(data) || isEmpty(data)) {
@@ -233,15 +248,10 @@ const Profile = (props) => {
           <Box className={classes.profileContainer}>
             <Box display="flex" justifyContent="flex-end">
               {isSelf ? (
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={(e) => {
-                    // history.push(`/dare/${dare._id}`);
-                  }}
-                >
-                  Edit Profile
-                </Button>
+                <EditProfileComponent
+                  durranUser={durranUser}
+                  handleProfileEdit={handleProfileEdit}
+                />
               ) : (
                 <Box style={{ height: "36px" }}></Box>
               )}
@@ -303,14 +313,9 @@ const Profile = (props) => {
           : null}
 
         {!isSelf && durranUserData.entries !== 0
-          ? 
-          durranUserData.entries.map((row, index) => {
+          ? durranUserData.entries.map((row, index) => {
               return (
-                <EntryComponent
-                  entry={row}
-                  key={index}
-                  history={history}
-                />
+                <EntryComponent entry={row} key={index} history={history} />
               );
             })
           : null}

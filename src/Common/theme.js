@@ -117,7 +117,7 @@ const theme = createMuiTheme({
         fontSize: "13px ",
         fontFamily: "'Poppins', sans-serif",
         color: "#2BE09E",
-        letterSpacing: ".8px"
+        letterSpacing: ".8px",
       },
       subtitle2: {
         fontWeight: 200,
@@ -128,14 +128,14 @@ const theme = createMuiTheme({
     },
     MuiDivider: {
       root: {
-        backgroundColor: "#2ff9af",
+        backgroundColor: "#303030",
       },
     },
     MuiButton: {
       label: {
         textTransform: "none",
       },
-      containedPrimary:{
+      containedPrimary: {
         "& .MuiButton-label": {
           color: "#fff",
         },
@@ -143,10 +143,30 @@ const theme = createMuiTheme({
         "&:hover": {
           backgroundColor: "#00ad6e !important",
         },
-      }
+      },
     },
 
     MuiInput: {
+      input: {
+        fontFamily: "'Poppins', sans-serif",
+        fontWeight: 400,
+        fontSize: "14px",
+      },
+
+      root: {
+        "&:hover:not($disabled):before": {
+          borderColor: "#2BE09E !important", //its when you hover and input is not foucused
+          borderWidth: "3px !important",
+        },
+        "&:before": {
+          borderColor: "#303030 !important", // when input is not touched
+        },
+
+        "&:after": {
+          borderWidth: "3px !important",
+        },
+      },
+
       multiline: {
         fontFamily: "'Poppins', sans-serif",
         fontWeight: 400,

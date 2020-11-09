@@ -15,28 +15,37 @@ import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import Link from "@material-ui/core/Link";
 
+import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
+import SportsEsportsOutlinedIcon from "@material-ui/icons/SportsEsportsOutlined";
+import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
+
+import SignOutComponent from "Components/SignOut";
+
 const useStyles = makeStyles((theme) => ({
   root: {
-    flexGrow: 1,
-
-    "& .navigationList > div:hover": {
-      "& .MuiListItemText-primary": {
-        color: "#fff",
-      },
-    },
+    display: "flex",
+    flexDirection: "column",
 
     "& .active": {
       borderLeft: theme.custom.border,
+      marginLeft: "-5px",
       boxShadow: "0 6px 10px 0 #0c0c0c",
       backgroundColor: theme.palette.background.paper,
       "& .MuiListItemText-primary": {
         color: "#fff",
+      },
+
+      "& .MuiListItemIcon-root": {
+        color: theme.palette.primary.main,
       },
     },
   },
   customListButton: {
     marginTop: "10px",
     marginBottom: "10px",
+    "&:hover": {
+      backgroundColor: "transparent",
+    },
   },
   profile: {
     display: "flex",
@@ -79,6 +88,7 @@ const useStyles = makeStyles((theme) => ({
     "& .profileUsername": {
       fontFamily: theme.custom.font2.fontFamily,
       fontWeight: 400,
+      color: "#949494 !important",
     },
   },
 
@@ -89,22 +99,23 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   navList: {
+    display: "flex",
+    flexDirection: "column",
+    flex: 1,
     "& .MuiListItemText-root > span": {
-      color: theme.palette.text.primary,
+      color: "#949494",
       fontFamily: theme.custom.font1.fontFamily,
       fontWeight: 600,
-      fontSize: "20px",
+      fontSize: "17px",
       letterSpacing: ".5px",
     },
     "& .MuiListItemIcon-root": {
+      color: "#505050",
       minWidth: "50px",
     },
   },
   rootProfile: {
-    position: "relative",
-    flexGrow: 1,
     "& :hover": {
-      backgroundColor: theme.custom.cardBg,
       "& .profileName": {
         color: "#fff",
       },
@@ -128,18 +139,18 @@ const useStyles = makeStyles((theme) => ({
       "& > ul > li .MuiListItemIcon-root": {
         minWidth: "50px !important",
       },
-      "& > ul > li:hover": {
-        "& .MuiTypography-root": {
-          color: "fff#",
-        },
-      },
+      // "& > ul > li:hover": {
+      //   "& .MuiTypography-root": {
+      //     color: "fff#",
+      //   },
+      // },
     },
   },
 }));
 
 const MainMenu = [
-  { name: "Home", location: "/", emoji: ":house_with_garden:" },
-  { name: "Dares", location: "/dare", emoji: ":video_game:" },
+  { name: "Home", location: "/", icon: <HomeOutlinedIcon /> },
+  { name: "Dares", location: "/dare", icon: <SportsEsportsOutlinedIcon /> },
 ];
 
 const LeftNav = (props) => {
@@ -153,7 +164,6 @@ const LeftNav = (props) => {
   }, [history.location]);
 
   const handleUserMenu = (e) => {
-    e.preventDefault();
     setAnchorEl(e.currentTarget);
   };
 
@@ -165,10 +175,11 @@ const LeftNav = (props) => {
     <Box className={classes.root}>
       <Box className={classes.rootProfile}>
         <a
-          href="/"
+          href={`/profile/${userData.username}`}
           className={classes.profileLink}
           onClick={(e) => {
-            handleUserMenu(e);
+            e.preventDefault();
+            history.push(`/profile/${userData.username}`);
           }}
         >
           <Box className={classes.profile}>
@@ -192,69 +203,68 @@ const LeftNav = (props) => {
       </Box>
       <Divider />
       <List classes={{ root: "navigationList" }} className={classes.navList}>
-        {MainMenu.map((menu, index) => (
-          <Link
-            key={index}
-            color="inherit"
-            underline="none"
-            href={`${menu.location}`}
-            onClick={(e) => {
-              e.preventDefault();
-              history.push(menu.location);
-              if (anchorEl) {
-                handleClose();
-              }
-            }}
-          >
-            <ListItem
-              button
-              className={[
-                location === menu.location ? "active" : null,
-                classes.customListButton,
-              ].join(" ")}
+        <Box style={{ flex: 1 }}>
+          {MainMenu.map((menu, index) => (
+            <Link
+              key={index}
+              color="inherit"
+              underline="none"
+              href={`${menu.location}`}
+              onClick={(e) => {
+                e.preventDefault();
+                history.push(menu.location);
+                if (anchorEl) {
+                  handleClose();
+                }
+              }}
             >
-              <ListItemIcon>
-                <span className={classes.emoji}>
-                  <EmojioneV4 text={menu.emoji} />
-                </span>
-              </ListItemIcon>
-              <ListItemText primary={menu.name} />
-            </ListItem>
-          </Link>
-        ))}
+              <ListItem
+                button
+                className={[
+                  location === menu.location ? "active" : null,
+                  classes.customListButton,
+                ].join(" ")}
+              >
+                <ListItemIcon>{menu.icon}</ListItemIcon>
+                <ListItemText primary={menu.name} />
+              </ListItem>
+            </Link>
+          ))}
 
-        {isAdmin ? (
-          <Link
-            color="inherit"
-            underline="none"
-            href="/admin/dare"
-            onClick={(e) => {
-              e.preventDefault();
-              history.push("/admin/dare");
-              if (anchorEl) {
-                handleClose();
-              }
-              if (anchorEl) {
-                handleClose();
-              }
-            }}
-          >
-            <ListItem
-              button
-              className={[
-                location === "/admin/dare" ? "active" : null,
-                classes.customListButton,
-              ].join(" ")}
+          {isAdmin ? (
+            <Link
+              color="inherit"
+              underline="none"
+              href="/admin/dare"
+              onClick={(e) => {
+                e.preventDefault();
+                history.push("/admin/dare");
+                if (anchorEl) {
+                  handleClose();
+                }
+                if (anchorEl) {
+                  handleClose();
+                }
+              }}
             >
-              <ListItemIcon>
-                <span className={classes.emoji}>
-                  <EmojioneV4 text=":file_folder:" />
-                </span>
-              </ListItemIcon>
-              <ListItemText primary="Dare List" />
-            </ListItem>
-          </Link>
-        ) : null}
+              <ListItem
+                button
+                className={[
+                  location === "/admin/dare" ? "active" : null,
+                  classes.customListButton,
+                ].join(" ")}
+              >
+                <ListItemIcon>
+                  <FolderOpenOutlinedIcon />
+                </ListItemIcon>
+                <ListItemText primary="Dare List" />
+              </ListItem>
+            </Link>
+          ) : null}
+        </Box>
+
+        <Divider style={{ marginBottom: 8 }} />
+        <SignOutComponent signOutUser={signOutUser} userSession={userSession}/>
       </List>
       <Menu
         id="simple-menu"

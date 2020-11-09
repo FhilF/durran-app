@@ -1,8 +1,7 @@
 import React from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
-import IconButton from "@material-ui/core/IconButton";
-import MonetizationOnOutlinedIcon from "@material-ui/icons/MonetizationOnOutlined";
+import TipComponent from "Components/Tip";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -15,16 +14,7 @@ const EntryAction = (props) => {
   const { entry } = props;
   return (
     <Box className={classes.root}>
-      <IconButton
-        aria-label="expand-less"
-        color="primary"
-        size="small"
-        onClick={(e) => {
-          e.stopPropagation();
-        }}
-      >
-        <MonetizationOnOutlinedIcon />
-      </IconButton>
+      <TipComponent />
     </Box>
   );
 };

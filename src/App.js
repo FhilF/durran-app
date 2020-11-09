@@ -54,6 +54,12 @@ class App extends Component {
     return true;
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (prevState.userSession !== this.state.userSession) {
+      console.log('test123')
+    }
+  }
+
   async handleUserSignIn(userSession) {
     const { setUser, setUserSettings } = this.props;
     const userData = userSession.loadUserData();
@@ -93,7 +99,6 @@ class App extends Component {
   render() {
     const { userData, isLoading, userSession, userSigningIn } = this.state;
     const { userSettings, dares, loadingReducer } = this.props;
-    console.log(dares);
     const authOptions = {
       appDetails: {
         name: "Durran",

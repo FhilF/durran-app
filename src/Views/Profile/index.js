@@ -6,7 +6,12 @@ import { connect } from "react-redux";
 import ProfileComponent from "Pages/Profile";
 import DurranUserModel from "Models/DurranUser";
 import EntryModel from "Models/Entry";
-import { fertchDurranUser, clearDurranUser } from "Utils/Actions/durranUserAction";
+import {
+  fertchDurranUser,
+  clearDurranUser,
+} from "Utils/Actions/durranUserAction";
+
+import ProfileLoadingComponent from "Components/ProfileLoading";
 
 class Profile extends Component {
   constructor(props) {
@@ -18,9 +23,11 @@ class Profile extends Component {
       isSelf: false,
       durranUserAdmin: [],
       entries: null,
+      updateUserProfile: false,
     };
     this.handleProfileData = this.handleProfileData.bind(this);
   }
+
 
   async handleProfileData() {
     this.setState({
@@ -29,53 +36,55 @@ class Profile extends Component {
     const { userData, match } = this.props;
     const username = match.params.username;
     if (userData.username === username) {
-      const durranUser = await DurranUserModel.fetchOwnList({
-        username: username,
-      });
+      try {
+        const durranUser = await DurranUserModel.fetchOwnList({
+          username: username,
+        });
 
-      const entries = await EntryModel.fetchOwnList({
-        createdBy: username,
-      });
+        const entries = await EntryModel.fetchOwnList({
+          createdBy: username,
+        });
 
-      this.setState({
-        durranUserAdmin: durranUser,
-        entries: entries,
-        isSelf: true,
-      });
+        this.setState({
+          durranUserAdmin: durranUser,
+          entries: entries,
+          isSelf: true,
+          isLoading: false,
+        });
+      } catch (error) {
+        console.log(error);
+      }
     }
 
     if (userData.username !== username) {
       const query = { durranUser: username };
       this.props.fertchDurranUser(query);
-      this.setState({ isSelf: false });
+      this.setState({ isSelf: false, isLoading: false });
     }
-
-    this.setState({
-      isLoading: false,
-    });
   }
 
   componentDidMount() {
     this.handleProfileData();
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.match.params.username !== prevProps.match.params.username) {
       this.handleProfileData();
     }
   }
 
   componentWillUnmount() {
-    this.props.clearDurranUser()
+    this.props.clearDurranUser();
   }
 
   render() {
     const { isLoading, isSelf, entries, durranUserAdmin } = this.state;
     const { userData, history, durranUser, durranUserLoading } = this.props;
+
     return (
       <Box>
         {isLoading ? (
-          <Card>Loading</Card>
+          <ProfileLoadingComponent />
         ) : isSelf ? (
           <ProfileComponent
             userData={userData}
@@ -85,7 +94,7 @@ class Profile extends Component {
             history={history}
           />
         ) : durranUserLoading ? (
-          <Card>Loading</Card>
+          <ProfileLoadingComponent />
         ) : durranUser.length !== 0 ? (
           <ProfileComponent
             userData={userData}
@@ -108,4 +117,6 @@ const mapStateToProps = (state) => ({
   durranUserLoading: state.durranUserReducer.durranUserLoading,
   durranUserError: state.durranUserReducer.durranUserError,
 });
-export default connect(mapStateToProps, { fertchDurranUser, clearDurranUser })(Profile);
+export default connect(mapStateToProps, { fertchDurranUser, clearDurranUser })(
+  Profile
+);

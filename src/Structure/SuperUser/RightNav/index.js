@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
       paddingLeft: "11px",
       borderLeft: "5px solid " + theme.palette.primary.main,
       fontSize: "15.5px",
-      background:theme.custom.hoverCardBg
+      background: theme.custom.hoverCardBg,
     },
     color: "#fff",
     fontFamily: theme.custom.font1.fontFamily,
@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   dareContainerDetails: {},
 
   title: {
-    color: "#fff !important",
+    color: "#949494 !important",
     fontFamily: theme.custom.font1.fontFamily,
     fontWeight: 600,
   },
