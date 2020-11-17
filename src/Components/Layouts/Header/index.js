@@ -7,7 +7,7 @@ import Typography from "@material-ui/core/Typography";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import MenuIcon from "@material-ui/icons/Menu";
-import { useConnect } from '@blockstack/connect';
+import { useConnect } from "@blockstack/connect";
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
@@ -41,25 +41,14 @@ const Header = (props) => {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          {userSession.isUserSignedIn() ? (
-            <Button
-              color="inherit"
-              onClick={(e) => {
-                signOutUser(e, userSession);
-              }}
-            >
-              Sign Out
-            </Button>
-          ) : (
-            <Button
-              color="inherit"
-              onClick={(e) => {
-                signInUser(e, doOpenAuth);
-              }}
-            >
-              Sign In
-            </Button>
-          )}
+          <Button
+            color="inherit"
+            onClick={(e) => {
+              signInUser(e, doOpenAuth);
+            }}
+          >
+            Sign In
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>

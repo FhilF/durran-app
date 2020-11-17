@@ -19,6 +19,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import Link from "@material-ui/core/Link";
 import { EmojioneV4 } from "react-emoji-render";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import { useBlockstack } from 'react-blockstack';
 
 const useStyles = makeStyles((theme) => ({
   root: {},
@@ -59,6 +60,10 @@ function EditProfile(props) {
   const classes = useStyles();
   const { signOutUser, userSession } = props;
   const [open, setOpen] = useState(false);
+  
+
+  
+  const { signOut } = useBlockstack();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -103,7 +108,7 @@ function EditProfile(props) {
           </Button>
           <Button
             onClick={(e) => {
-              signOutUser(e, userSession);
+              signOutUser(e, userSession, signOut);
             }}
             color="primary"
           >

@@ -7,9 +7,11 @@ import ProfileComponent from "Pages/Profile";
 import DurranUserModel from "Models/DurranUser";
 import EntryModel from "Models/Entry";
 import {
-  fertchDurranUser,
+  fetchDurranUser,
   clearDurranUser,
 } from "Utils/Actions/durranUserAction";
+
+import { fetchEntries } from "Utils/Actions/entryAction";
 
 import ProfileLoadingComponent from "Components/ProfileLoading";
 
@@ -27,7 +29,6 @@ class Profile extends Component {
     };
     this.handleProfileData = this.handleProfileData.bind(this);
   }
-
 
   async handleProfileData() {
     this.setState({
@@ -58,7 +59,9 @@ class Profile extends Component {
 
     if (userData.username !== username) {
       const query = { durranUser: username };
-      this.props.fertchDurranUser(query);
+      const queryEntries = { createdBy: username };
+      this.props.fetchDurranUser(query);
+      this.props.fetchEntries(queryEntries);
       this.setState({ isSelf: false, isLoading: false });
     }
   }
@@ -79,8 +82,8 @@ class Profile extends Component {
 
   render() {
     const { isLoading, isSelf, entries, durranUserAdmin } = this.state;
-    const { userData, history, durranUser, durranUserLoading } = this.props;
-
+    const { userData, history, durranUser, durranUserLoading, entriesLoading } = this.props;
+    console.log(durranUser)
     return (
       <Box>
         {isLoading ? (
@@ -93,13 +96,13 @@ class Profile extends Component {
             isSelf={isSelf}
             history={history}
           />
-        ) : durranUserLoading ? (
+        ) : durranUserLoading && entriesLoading ? (
           <ProfileLoadingComponent />
         ) : durranUser.length !== 0 ? (
           <ProfileComponent
             userData={userData}
             durranUser={durranUser}
-            entries={entries}
+            entries={this.props.entries}
             isSelf={isSelf}
             history={history}
           />
@@ -116,7 +119,12 @@ const mapStateToProps = (state) => ({
   durranUser: state.durranUserReducer.durranUser,
   durranUserLoading: state.durranUserReducer.durranUserLoading,
   durranUserError: state.durranUserReducer.durranUserError,
+  entries: state.entryReducer.entries,
+  entriesLoading: state.entryReducer.entriesLoading,
+  entriesError: state.entryReducer.entriesError,
 });
-export default connect(mapStateToProps, { fertchDurranUser, clearDurranUser })(
-  Profile
-);
+export default connect(mapStateToProps, {
+  fetchDurranUser,
+  clearDurranUser,
+  fetchEntries,
+})(Profile);

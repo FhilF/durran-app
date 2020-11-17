@@ -11,10 +11,10 @@ import {
 
 const theme = createMuiTheme({
   custom: {
-    boxShadow: "0 10px 15px 0 #0c0c0c",
+    boxShadow: "0 10px 15px 0 #11131b",
     border: "5px solid #2FF9AF",
-    cardBg: "#1a1a1d",
-    hoverCardBg: "#1c1c1f",
+    cardBg: "#181a21",
+    hoverCardBg: "#191c23",
     font1: {
       fontFamily: "'IBM Plex Sans', sans-serif",
     },
@@ -33,14 +33,13 @@ const theme = createMuiTheme({
       secondary: "#a5a5a5",
     },
     background: {
-      default: "#1a1a1d",
-      paper: "#1a1a1d",
+      default: "#191b25",
+      paper: "#191b25",
     },
     action: {
       hover: "#242425",
     },
-    divider: "#2ff9af",
-
+    divider: "#303030",
     primary: {
       lighter: "#93ffd8",
       main: "#2FF9AF",
@@ -101,7 +100,7 @@ const theme = createMuiTheme({
       },
       h6: {
         fontWeight: 400,
-        fontSize: "16px",
+        fontSize: "15px",
         fontFamily: "'Poppins', sans-serif",
       },
       p: {
@@ -112,11 +111,17 @@ const theme = createMuiTheme({
         fontSize: "13px",
         fontFamily: "'Poppins', sans-serif",
       },
+      body2: {
+        fontWeight: 300,
+        fontSize: "13px",
+        fontFamily: "'Poppins', sans-serif",
+        color: "#2FF9AF"
+      },
       subtitle1: {
         fontWeight: 200,
         fontSize: "13px ",
         fontFamily: "'Poppins', sans-serif",
-        color: "#2BE09E",
+        color: "#2FF9AF",
         letterSpacing: ".8px",
       },
       subtitle2: {
@@ -127,9 +132,7 @@ const theme = createMuiTheme({
       },
     },
     MuiDivider: {
-      root: {
-        backgroundColor: "#303030",
-      },
+      root: {},
     },
     MuiButton: {
       label: {
@@ -137,7 +140,7 @@ const theme = createMuiTheme({
       },
       containedPrimary: {
         "& .MuiButton-label": {
-          color: "#fff",
+          color: "#191b25",
         },
         backgroundColor: "#2BE09E",
         "&:hover": {

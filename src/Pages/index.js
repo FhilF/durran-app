@@ -1,7 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
-
+import { fetchEntries } from "Utils/Actions/entryAction";
+import LoadingEntryComponent from "Components/Entry/loading";
+import { connect } from "react-redux";
 import EntryComponent from "Components/Entry";
 
 const useStyles = makeStyles((theme) => ({
@@ -12,14 +14,32 @@ const useStyles = makeStyles((theme) => ({
 
 function Home(props) {
   const classes = useStyles();
-  const { entries, history } = props;
+  const { fetchEntries, entries, loadingReducer, errorReducer, history } = props;
+  const [pageLoading, setPageLoading] = useState(true);
+
+  useEffect(() => {
+    const query = { fetcher: null };
+    fetchEntries(query);
+  }, [fetchEntries]);
+
+  useEffect(() => {
+    setPageLoading(false);
+  }, []);
+  // const { entries, history } = props;
   return (
     <Box className={classes.root} p={2}>
-      {entries.map((row, index) => {
-        return <EntryComponent entry={row} key={row._id} history={history} />;
-      })}
+      {!pageLoading &&
+        !loadingReducer &&
+        entries.map((row, index) => {
+          return <EntryComponent entry={row} key={row._id} history={history} />;
+        })}
     </Box>
   );
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  entries: state.entryReducer.entries,
+  loadingReducer: state.entryReducer.entriesLoading,
+  errorReducer: state.entryReducer.entriesError,
+});
+export default connect(mapStateToProps, { fetchEntries })(Home);

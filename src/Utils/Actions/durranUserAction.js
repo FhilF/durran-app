@@ -12,7 +12,7 @@ export const clearDurranUser = (query) => async (dispatch) => {
   });
 };
 
-export const fertchDurranUser = (query) => async (dispatch) => {
+export const fetchDurranUser = (query) => async (dispatch) => {
   dispatch({
     type: FETCH_DURRAN_USER_BEGIN,
   });

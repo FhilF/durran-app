@@ -5,7 +5,7 @@ export const durranUserModifier = (_durranUsers) => {
       ...durranUser,
     };
 
-    _durranUser.entries = userEntryModifier(_durranUser.entries)
+    _durranUser.entries = userEntryModifier(_durranUser.entries);
 
     delete _durranUser.signingKeyId;
     delete _durranUser.radiksSignature;
@@ -21,12 +21,23 @@ const userEntryModifier = (_entries) => {
       ...entry,
     };
 
+    _entry.dare = userEntryDareModifier(_entry.dare);
 
     delete _entry.signingKeyId;
     delete _entry.radiksSignature;
     entries[index] = _entry;
   });
   return entries;
+};
+
+const userEntryDareModifier = (_dare) => {
+  let dare;
+  if (_dare.length !== 0) {
+    dare = _dare[0];
+    delete dare.signingKeyId;
+    delete dare.radiksSignature;
+  }
+  return dare;
 };
 
 // export const durranUserModifier = (_durranUsers) => {

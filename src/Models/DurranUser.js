@@ -24,7 +24,7 @@ export default class DurranUser extends Model {
       type: String,
       decrypted: true,
     },
-    bitcoinAddress: {
+    stxAddress: {
       type: String,
       decrypted: true,
     },

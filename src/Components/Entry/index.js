@@ -53,7 +53,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Entry = (props) => {
   const classes = useStyles();
-  const { entry, history } = props;
+  const { entry, history, userLoggedIn } = props;
   return (
     <Box className={classes.root}>
       <Box
@@ -71,6 +71,7 @@ const Entry = (props) => {
                 href={`/profile/${entry.createdBy}`}
                 onClick={(e) => {
                   e.stopPropagation();
+                  e.preventDefault();
                   history.push(`/profile/${entry.createdBy}`);
                 }}
               >
@@ -84,11 +85,12 @@ const Entry = (props) => {
                     href={`/profile/${entry.createdBy}`}
                     onClick={(e) => {
                       e.stopPropagation();
+                      e.preventDefault();
                       history.push(`/profile/${entry.createdBy}`);
                     }}
                   >
                     <Typography
-                      variant="body2"
+                      variant="body1"
                       component="p"
                       className={clsx(classes.userName, "userName")}
                     >
@@ -101,6 +103,7 @@ const Entry = (props) => {
                     href={`/entry/${entry._id}`}
                     onClick={(e) => {
                       e.stopPropagation();
+                      e.preventDefault();
                       history.push(`/entry/${entry._id}`);
                     }}
                   >
@@ -138,7 +141,7 @@ const Entry = (props) => {
               </video>
             ) : null}
             <Box mt={4}>
-              <EntryAction entry={entry} />
+              <EntryAction entry={entry} userLoggedIn={userLoggedIn} />
             </Box>
           </CardContent>
         </Card>

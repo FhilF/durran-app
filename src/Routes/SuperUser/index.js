@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import Box from "@material-ui/core/Box";
 import { Switch, Route, Redirect } from "react-router-dom";
-import Home from "Views/index";
+import Home from "Pages/index";
 import SamplePage from "Views/SamplePage";
-import Profile from "Views/Profile";
+import Profile from "Pages/Profile";
 import Entry from "Views/Entry";
 import Dare from "Views/Dare";
 import DareList from "Views/Dare/dareList";

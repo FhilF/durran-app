@@ -48,10 +48,6 @@ function EditProfile(props) {
         ? ""
         : durranUserData.attrs.location,
     bio: durranUserData.attrs.bio === null ? "" : durranUserData.attrs.bio,
-    bitcoinAddress:
-      durranUserData.attrs.bitcoinAddress === null
-        ? ""
-        : durranUserData.attrs.bitcoinAddress,
   });
 
   const [status, setStatus] = useState("");
@@ -86,10 +82,6 @@ function EditProfile(props) {
             ? ""
             : durranUserData.attrs.location,
         bio: durranUserData.attrs.bio === null ? "" : durranUserData.attrs.bio,
-        bitcoinAddress:
-          durranUserData.attrs.bitcoinAddress === null
-            ? ""
-            : durranUserData.attrs.bitcoinAddress,
       });
     }, 1000);
   };
@@ -104,11 +96,9 @@ function EditProfile(props) {
       name: null,
       location: null,
       bio: null,
-      bitcoinAddress: null,
     };
     profileEdit.name = nullCheck(profile.name);
     profileEdit.location = nullCheck(profile.location);
-    profileEdit.bitcoinAddress = nullCheck(profile.location);
     profileEdit.bio = nullCheck(profile.location);
     durranUserData.update({
       ...profileEdit,
@@ -192,26 +182,7 @@ function EditProfile(props) {
               disabled={loading}
               autoComplete="off"
             />
-            <TextField
-              className={classes.textField}
-              id="profile-bitcoinAddress"
-              label="Bitcoin Address"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              inputProps={{
-                maxLength: 40,
-              }}
-              helperText={`${profile.bitcoinAddress.length}/40`}
-              onChange={(e) => {
-                setProfile({ ...profile, bitcoinAddress: e.target.value });
-              }}
-              value={profile.bitcoinAddress}
-              disabled={loading}
-              autoComplete="off"
-            />
+            
 
             <TextField
               className={classes.textField}

@@ -1,24 +1,23 @@
-
-import axios from 'axios'
+import axios from "axios";
 const { COLLECTION } = require("radiks-server/app/lib/constants");
 const sortBy = require("lodash/sortBy");
 
 export const aggregateDurranUser = async (radiksData, query) => {
   const match = {
     $match: {
-      radiksType: "DurranUser"
-    }
+      radiksType: "DurranUser",
+    },
   };
 
   if (query.lt) {
     match.$match.createdAt = {
-      $lt: parseInt(query.lt, 10)
+      $lt: parseInt(query.lt, 10),
     };
   }
 
   if (query.gte) {
     match.$match.createdAt = {
-      $gte: query.gte
+      $gte: query.gte,
     };
   }
 
@@ -27,18 +26,37 @@ export const aggregateDurranUser = async (radiksData, query) => {
   }
 
   const sort = {
-    $sort: { createdAt: -1 }
+    $sort: { createdAt: -1 },
   };
 
   const limit = {
-    $limit: query.limit || 10
+    $limit: query.limit || 10,
   };
 
   const entryLookup = {
     $lookup: {
       from: COLLECTION,
-      localField: "username",
-      foreignField: "createdBy",
+      let: { durran_User: "$username" },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                { $eq: ["Entry", "$radiksType"] },
+                { $eq: ["$$durran_User", "$createdBy"] },
+              ],
+            },
+          },
+        },
+        {
+          $lookup: {
+            from: COLLECTION,
+            localField: "dareId",
+            foreignField: "_id",
+            as: "dare",
+          },
+        },
+      ],
       as: "entries",
     },
   };
@@ -49,7 +67,6 @@ export const aggregateDurranUser = async (radiksData, query) => {
 
   return user;
 };
-
 
 module.exports = {
   aggregateDurranUser,

@@ -11,10 +11,10 @@ const useStyles = makeStyles((theme) => ({
 
 const EntryAction = (props) => {
   const classes = useStyles();
-  const { entry } = props;
+  const { entry, userLoggedIn } = props;
   return (
     <Box className={classes.root}>
-      <TipComponent />
+      {/* {userLoggedIn === entry.createdBy ? null : <TipComponent entry={entry} />} */}
     </Box>
   );
 };

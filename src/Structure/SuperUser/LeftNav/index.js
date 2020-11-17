@@ -18,6 +18,7 @@ import Link from "@material-ui/core/Link";
 import HomeOutlinedIcon from "@material-ui/icons/HomeOutlined";
 import SportsEsportsOutlinedIcon from "@material-ui/icons/SportsEsportsOutlined";
 import FolderOpenOutlinedIcon from "@material-ui/icons/FolderOpenOutlined";
+import PersonOutlineOutlinedIcon from "@material-ui/icons/PersonOutlineOutlined";
 
 import SignOutComponent from "Components/SignOut";
 
@@ -30,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
       borderLeft: theme.custom.border,
       marginLeft: "-5px",
       boxShadow: "0 6px 10px 0 #0c0c0c",
-      backgroundColor: theme.palette.background.paper,
+      backgroundColor: theme.custom.cardBg,
       "& .MuiListItemText-primary": {
         color: "#fff",
       },
@@ -101,7 +102,6 @@ const useStyles = makeStyles((theme) => ({
   navList: {
     display: "flex",
     flexDirection: "column",
-    flex: 1,
     "& .MuiListItemText-root > span": {
       color: "#949494",
       fontFamily: theme.custom.font1.fontFamily,
@@ -173,7 +173,7 @@ const LeftNav = (props) => {
 
   return (
     <Box className={classes.root}>
-      <Box className={classes.rootProfile}>
+      {/* <Box className={classes.rootProfile}>
         <a
           href={`/profile/${userData.username}`}
           className={classes.profileLink}
@@ -201,7 +201,7 @@ const LeftNav = (props) => {
           </Box>
         </a>
       </Box>
-      <Divider />
+      <Divider /> */}
       <List classes={{ root: "navigationList" }} className={classes.navList}>
         <Box style={{ flex: 1 }}>
           {MainMenu.map((menu, index) => (
@@ -230,6 +230,29 @@ const LeftNav = (props) => {
               </ListItem>
             </Link>
           ))}
+
+          <Link
+            color="inherit"
+            underline="none"
+            href={`/profile/${userData.username}`}
+            onClick={(e) => {
+              e.preventDefault();
+              history.push(`/profile/${userData.username}`);
+            }}
+          >
+            <ListItem
+              button
+              className={[
+                location === `/profile/${userData.username}` ? "active" : null,
+                classes.customListButton,
+              ].join(" ")}
+            >
+              <ListItemIcon>
+                <PersonOutlineOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText primary="Profile" />
+            </ListItem>
+          </Link>
 
           {isAdmin ? (
             <Link
@@ -264,7 +287,7 @@ const LeftNav = (props) => {
         </Box>
 
         <Divider style={{ marginBottom: 8 }} />
-        <SignOutComponent signOutUser={signOutUser} userSession={userSession}/>
+        <SignOutComponent signOutUser={signOutUser} userSession={userSession} />
       </List>
       <Menu
         id="simple-menu"

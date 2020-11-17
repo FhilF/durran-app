@@ -8,6 +8,21 @@ import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 
 import store from "Utils/Store";
+import ReactBlockstack from 'react-blockstack';
+
+import { appConfig , finished } from './UserSession.js';
+
+
+const blockstack = ReactBlockstack({ appConfig });
+(() => {
+  if (blockstack.userSession.isSignInPending()) {
+    blockstack.userSession.handlePendingSignIn().then(userData => {
+      finished(() => {
+        console.log('handling pending sign in on launch');
+      })({ userSession: blockstack.userSession });
+    });
+  }
+})();
 
 ReactDOM.render(
   <React.StrictMode>
